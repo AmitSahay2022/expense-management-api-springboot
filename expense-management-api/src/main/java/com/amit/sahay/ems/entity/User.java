@@ -3,6 +3,7 @@ package com.amit.sahay.ems.entity;
 import java.sql.Timestamp;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,14 +20,15 @@ public class User {
 	private long userId;
 	@Column(nullable = false)
 	private String name;
-	@Column(nullable = false,unique = true)
+	@Column(nullable = false, unique = true)
 	private String email;
 	@Column(nullable = false)
 	private String password;
 	private int age;
 	@CreationTimestamp
-	@Column(name = "created_at",updatable = false)
+	@Column(name = "created_at", updatable = false)
 	private Timestamp createdAt;
-	@Column(name="last-updated-at")
+	@Column(name = "last-updated-at")
+	@UpdateTimestamp
 	private Timestamp updatedAt;
 }
