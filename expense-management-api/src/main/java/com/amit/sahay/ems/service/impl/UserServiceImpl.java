@@ -15,6 +15,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User createUser(User user) {
+		if(userRepository.existsByEmail(user.getEmail())) {
+			throw new RuntimeException("Email allready registered");
+		}
 		
 		return userRepository.save(user);
 	}
@@ -24,9 +27,9 @@ public class UserServiceImpl implements UserService {
 	public User updateUser(long userId, User usr) {
 		User user = getUserDetails(userId);
 				        		 
-		user.setName(usr.getName());
-		user.setAge(usr.getAge());
-		user.setPassword(usr.getPassword());
+		user.setName(usr.getName().trim().length()>2 ? usr.getName() : user.getName());
+		user.setAge(usr.getAge() > 0 ? usr.getAge() : user.getAge());
+		user.setPassword(usr.getPassword().trim().length() >= 4 ? usr.getPassword() : user.getPassword());
 		return userRepository.save(user);
 	}
 
