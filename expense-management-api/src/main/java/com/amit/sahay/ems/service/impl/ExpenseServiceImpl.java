@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.amit.sahay.ems.entity.Expense;
 import com.amit.sahay.ems.entity.User;
+import com.amit.sahay.ems.exception.ExpenseNotFoundException;
 import com.amit.sahay.ems.repository.ExpenseRepository;
 import com.amit.sahay.ems.service.ExpenseService;
 import com.amit.sahay.ems.service.UserService;
@@ -50,7 +51,7 @@ public class ExpenseServiceImpl implements ExpenseService{
 		// TODO Auto-generated method stub
 		Expense expense = expenseRepository
 		       .findByUserUserIdAndExpenseId(userId, expenseId)
-		       .orElseThrow(()->new RuntimeException("Expense not found with id: "+expenseId));
+		       .orElseThrow(()->new ExpenseNotFoundException("Expense not found with id: "+expenseId));
 		return expense;
 	}
 

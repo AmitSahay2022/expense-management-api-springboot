@@ -3,6 +3,8 @@ package com.amit.sahay.ems.service.impl;
 import org.springframework.stereotype.Service;
 
 import com.amit.sahay.ems.entity.User;
+import com.amit.sahay.ems.exception.UserAllReadyExistException;
+import com.amit.sahay.ems.exception.UserNotFoundException;
 import com.amit.sahay.ems.repository.UserRepository;
 import com.amit.sahay.ems.service.UserService;
 
@@ -16,7 +18,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User createUser(User user) {
 		if(userRepository.existsByEmail(user.getEmail())) {
-			throw new RuntimeException("Email allready registered");
+			throw new UserAllReadyExistException("Email allready registered");
 		}
 		
 		return userRepository.save(user);
@@ -45,7 +47,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		User user = userRepository
 				        .findById(userId)
-				        .orElseThrow(()->new RuntimeException("User with id: "+userId+" not found"));
+				        .orElseThrow(()->new UserNotFoundException("User with id: "+userId+" not found"));
 		return user;
 	}
 
