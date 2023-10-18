@@ -2,6 +2,8 @@ package com.amit.sahay.ems.service.impl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.amit.sahay.ems.entity.Expense;
@@ -53,9 +55,9 @@ public class ExpenseServiceImpl implements ExpenseService{
 	}
 
 	@Override
-	public List<Expense> getAllExpenses(long userId) {
+	public Page<Expense> getAllExpenses(long userId,Pageable pageable) {
 		
-		return expenseRepository.findByUserUserId(userId);
+		return expenseRepository.findByUserUserId(userId,pageable);
 	}
 
 }

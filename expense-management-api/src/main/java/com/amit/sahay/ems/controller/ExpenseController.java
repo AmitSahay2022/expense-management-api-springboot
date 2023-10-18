@@ -2,6 +2,8 @@ package com.amit.sahay.ems.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,7 +49,7 @@ public class ExpenseController {
 	}
 
 	@GetMapping("{userId}")
-	public ResponseEntity<List<Expense>> getAllExpenses(@PathVariable long userId) {
-		return new ResponseEntity<List<Expense>>(expenseService.getAllExpenses(userId), HttpStatus.OK);
+	public ResponseEntity<Page<Expense>> getAllExpenses(@PathVariable long userId,Pageable pageable) {
+		return new ResponseEntity<>(expenseService.getAllExpenses(userId,pageable), HttpStatus.OK);
 	}
 }

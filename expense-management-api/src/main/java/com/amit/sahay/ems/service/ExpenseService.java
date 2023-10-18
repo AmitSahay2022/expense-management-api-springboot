@@ -1,6 +1,7 @@
 package com.amit.sahay.ems.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.amit.sahay.ems.entity.Expense;
 
@@ -13,5 +14,5 @@ public interface ExpenseService {
 
 	Expense getExpenseById(long userId, long expenseId);
 
-	List<Expense> getAllExpenses(long userId);
+	Page<Expense> getAllExpenses(long userId,Pageable pageable);
 }
