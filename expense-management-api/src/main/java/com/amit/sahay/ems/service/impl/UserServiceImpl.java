@@ -1,5 +1,7 @@
 package com.amit.sahay.ems.service.impl;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +32,8 @@ public class UserServiceImpl implements UserService {
 
 	//Only user name,age and password can be updated
 	@Override
-	public User updateUser(long userId, User usr) {
-		User user = getUserDetails(userId);
+	public User updateUser(User usr) {
+		User user = getUserDetails();
 				        		 
 		user.setName(usr.getName().trim().length()>2 ? usr.getName() : user.getName());
 		user.setAge(usr.getAge() > 0 ? usr.getAge() : user.getAge());
@@ -42,19 +44,23 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String deleteUser(long userId) {
-		User user = getUserDetails(userId);
+	public String deleteUser() {
+		User user = getUserDetails();
 		userRepository.delete(user);
 		return "User Deleted Successfully";
 	}
 
 	@Override
-	public User getUserDetails(long userId) {
+	public User getUserDetails() {
 		// TODO Auto-generated method stub
-		User user = userRepository
-				        .findById(userId)
-				        .orElseThrow(()->new UserNotFoundException("User with id: "+userId+" not found"));
+		User user = getLoggedInUser();
 		return user;
+	}
+	
+	public User getLoggedInUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		return userRepository.findByEmail(email).get();
 	}
 
 }

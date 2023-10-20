@@ -5,9 +5,9 @@ import com.amit.sahay.ems.entity.User;
 public interface UserService {
 	User createUser(User user);
 
-	User updateUser(long userId, User user);
+	User updateUser(User user);
 
-	String deleteUser(long userId);
+	String deleteUser();
 
-	User getUserDetails(long userId);
+	User getUserDetails();
 }

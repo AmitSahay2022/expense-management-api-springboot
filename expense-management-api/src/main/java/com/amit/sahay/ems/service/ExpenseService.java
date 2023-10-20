@@ -6,13 +6,13 @@ import org.springframework.data.domain.Pageable;
 import com.amit.sahay.ems.entity.Expense;
 
 public interface ExpenseService {
-	Expense saveExpenseRecord(long userId, Expense expense);
+	Expense saveExpenseRecord(Expense expense);
 
-	Expense updateExpenseRecord(long userId, long expenseId, Expense expense);
+	Expense updateExpenseRecord(long expenseId, Expense expense);
 
-	String deleteExpenseRecord(long userId, long expenseId);
+	String deleteExpenseRecord(long expenseId);
 
-	Expense getExpenseById(long userId, long expenseId);
+	Expense getExpenseById(long expenseId);
 
-	Page<Expense> getAllExpenses(long userId,Pageable pageable);
+	Page<Expense> getAllExpenses(Pageable pageable);
 }

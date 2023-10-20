@@ -20,16 +20,16 @@ public class ExpenseServiceImpl implements ExpenseService{
     private UserService userService;
     private ExpenseRepository expenseRepository;
 	@Override
-	public Expense saveExpenseRecord(long userId,Expense expense) {
-		User user = userService.getUserDetails(userId);
+	public Expense saveExpenseRecord(Expense expense) {
+		User user = userService.getUserDetails();
 		expense.setUser(user);
 		return expenseRepository.save(expense);
 	}
 
 	@Override
-	public Expense updateExpenseRecord(long userId, long expenseId, Expense expense) {
+	public Expense updateExpenseRecord(long expenseId, Expense expense) {
 		// TODO Auto-generated method stub
-		Expense expenseById = getExpenseById(userId, expenseId);
+		Expense expenseById = getExpenseById(expenseId);
 		expenseById.setAmount(expense.getAmount());
 		expenseById.setCategory(expense.getCategory());
 		expenseById.setDate(expense.getDate());
@@ -39,26 +39,27 @@ public class ExpenseServiceImpl implements ExpenseService{
 	}
 
 	@Override
-	public String deleteExpenseRecord(long userId, long expenseId) {
+	public String deleteExpenseRecord(long expenseId) {
 		// TODO Auto-generated method stub
-		Expense expenseById = getExpenseById(userId, expenseId);
+		Expense expenseById = getExpenseById(expenseId);
 		expenseRepository.delete(expenseById);
 		return "Expense with id: "+expenseId+" Deleted Successfully";
 	}
 
 	@Override
-	public Expense getExpenseById(long userId, long expenseId) {
+	public Expense getExpenseById(long expenseId) {
 		// TODO Auto-generated method stub
+		User user = userService.getUserDetails();
 		Expense expense = expenseRepository
-		       .findByUserUserIdAndExpenseId(userId, expenseId)
+		       .findByUserUserIdAndExpenseId(user.getUserId(), expenseId)
 		       .orElseThrow(()->new ExpenseNotFoundException("Expense not found with id: "+expenseId));
 		return expense;
 	}
 
 	@Override
-	public Page<Expense> getAllExpenses(long userId,Pageable pageable) {
-		
-		return expenseRepository.findByUserUserId(userId,pageable);
+	public Page<Expense> getAllExpenses(Pageable pageable) {
+		User user = userService.getUserDetails();
+		return expenseRepository.findByUserUserId(user.getUserId(),pageable);
 	}
 
 }

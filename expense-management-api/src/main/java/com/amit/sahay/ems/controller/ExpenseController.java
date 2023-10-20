@@ -1,7 +1,5 @@
 package com.amit.sahay.ems.controller;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -26,30 +24,30 @@ import lombok.AllArgsConstructor;
 public class ExpenseController {
 	private ExpenseService expenseService;
 
-	@PostMapping("{userId}")
-	public ResponseEntity<Expense> saveExpense(@PathVariable long userId, @RequestBody Expense expense) {
-		return new ResponseEntity<Expense>(expenseService.saveExpenseRecord(userId, expense), HttpStatus.CREATED);
+	@PostMapping()
+	public ResponseEntity<Expense> saveExpense(@RequestBody Expense expense) {
+		return new ResponseEntity<Expense>(expenseService.saveExpenseRecord(expense), HttpStatus.CREATED);
 	}
 
-	@PutMapping("{userId}/{expenseId}")
-	public ResponseEntity<Expense> updateExpense(@PathVariable long userId, @PathVariable long expenseId,
+	@PutMapping("{expenseId}")
+	public ResponseEntity<Expense> updateExpense(@PathVariable long expenseId,
 			@RequestBody Expense expense) {
-		return new ResponseEntity<Expense>(expenseService.updateExpenseRecord(userId, expenseId, expense),
+		return new ResponseEntity<Expense>(expenseService.updateExpenseRecord(expenseId, expense),
 				HttpStatus.ACCEPTED);
 	}
 
-	@DeleteMapping("{userId}/{expenseId}")
-	public ResponseEntity<String> deleteExpense(@PathVariable long userId, @PathVariable long expenseId) {
-		return new ResponseEntity<String>(expenseService.deleteExpenseRecord(userId, expenseId), HttpStatus.OK);
+	@DeleteMapping("{expenseId}")
+	public ResponseEntity<String> deleteExpense(@PathVariable long expenseId) {
+		return new ResponseEntity<String>(expenseService.deleteExpenseRecord(expenseId), HttpStatus.OK);
 	}
 
-	@GetMapping("{userId}/{expenseId}")
-	public ResponseEntity<Expense> getExpenseById(@PathVariable long userId, @PathVariable long expenseId) {
-		return new ResponseEntity<Expense>(expenseService.getExpenseById(userId, expenseId), HttpStatus.OK);
+	@GetMapping("{expenseId}")
+	public ResponseEntity<Expense> getExpenseById(@PathVariable long expenseId) {
+		return new ResponseEntity<Expense>(expenseService.getExpenseById(expenseId), HttpStatus.OK);
 	}
 
-	@GetMapping("{userId}")
-	public ResponseEntity<Page<Expense>> getAllExpenses(@PathVariable long userId,Pageable pageable) {
-		return new ResponseEntity<>(expenseService.getAllExpenses(userId,pageable), HttpStatus.OK);
+	@GetMapping()
+	public ResponseEntity<Page<Expense>> getAllExpenses(Pageable pageable) {
+		return new ResponseEntity<>(expenseService.getAllExpenses(pageable), HttpStatus.OK);
 	}
 }
