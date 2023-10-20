@@ -1,5 +1,6 @@
 package com.amit.sahay.ems.service.impl;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.amit.sahay.ems.entity.User;
@@ -14,13 +15,16 @@ import lombok.AllArgsConstructor;
 @Service
 public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
+	
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public User createUser(User user) {
 		if(userRepository.existsByEmail(user.getEmail())) {
 			throw new UserAllReadyExistException("Email allready registered");
 		}
-		
+		String encodedPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(encodedPassword);
 		return userRepository.save(user);
 	}
 
@@ -31,7 +35,9 @@ public class UserServiceImpl implements UserService {
 				        		 
 		user.setName(usr.getName().trim().length()>2 ? usr.getName() : user.getName());
 		user.setAge(usr.getAge() > 0 ? usr.getAge() : user.getAge());
-		user.setPassword(usr.getPassword().trim().length() >= 4 ? usr.getPassword() : user.getPassword());
+		
+		String encodedPassword = passwordEncoder.encode(usr.getPassword());
+		user.setPassword(encodedPassword);
 		return userRepository.save(user);
 	}
 

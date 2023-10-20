@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserController {
 	private UserService userService;
-    @PostMapping
+    @PostMapping("/register")
 	public ResponseEntity<User> saveUser(@RequestBody User user) {
 		return new ResponseEntity<>(userService.createUser(user),HttpStatus.CREATED);
 	}
